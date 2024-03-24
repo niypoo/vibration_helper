@@ -1,29 +1,31 @@
-import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:vibration/vibration.dart';
 
 class VibrationHelper {
   // normal vibrate
-  static Future<void> vibrate() async {
-    if (!await Vibrate.canVibrate) return;
-    await Vibrate.vibrate();
-  }
-
-  // normal vibrate with pauses
-  static Future<void> vibrateWithPauses([
-    List<Duration> pauses = const [
-      Duration(milliseconds: 500),
-      Duration(milliseconds: 1000),
-      Duration(milliseconds: 500),
-    ],
-  ]) async {
-    if (!await Vibrate.canVibrate) return;
-    Vibrate.vibrateWithPauses(pauses);
-  }
-
-  // haptic feedback
-  static Future<void> haptic({
-    feedBack = FeedbackType.impact,
+  static Future<void> vibrate({
+    int duration = 500,
+    List<int> pattern = const [],
+    int repeat = -1,
+    List<int> intensities = const [],
+    int amplitude = -1,
   }) async {
-    if (!await Vibrate.canVibrate) return;
-    Vibrate.feedback(feedBack);
+    if (!await isSupport()) return;
+    await Vibration.vibrate(
+      duration: duration,
+      pattern: pattern,
+      intensities: intensities,
+      repeat: repeat,
+      amplitude: amplitude,
+    );
+  }
+
+  static Future<bool> isSupport() async {
+    final bool? hasVibrator = await Vibration.hasVibrator();
+    return hasVibrator == true;
+  }
+
+  static Future<bool> isCustomSupport() async {
+    final bool? hasVibrator = await Vibration.hasCustomVibrationsSupport();
+    return hasVibrator == true;
   }
 }

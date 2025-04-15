@@ -20,12 +20,12 @@ class VibrationHelper {
   }
 
   static Future<bool> isSupport() async {
-    final bool? hasVibrator = await Vibration.hasVibrator();
+    final bool hasVibrator = await Vibration.hasVibrator();
     return hasVibrator == true;
   }
 
   static Future<bool> isCustomSupport() async {
-    final bool? hasVibrator = await Vibration.hasCustomVibrationsSupport();
+    final bool hasVibrator = await Vibration.hasCustomVibrationsSupport();
     return hasVibrator == true;
   }
 }
